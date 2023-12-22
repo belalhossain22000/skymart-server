@@ -1,5 +1,7 @@
 import { UserModel } from "./userModel.js";
 
+
+// create user route
 const createStudentIntoDB = async (payload) => {
   const { email } = payload;
 
