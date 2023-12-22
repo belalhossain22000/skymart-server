@@ -1,3 +1,4 @@
+import generateToken from "../../utils/generateToken.js";
 import { UserModel } from "./userModel.js";
 
 
@@ -24,6 +25,35 @@ const createStudentIntoDB = async (payload) => {
   }
 };
 
+
+// @desc    Auth user & get token
+// @route   POST /api/users/auth
+// @access  Public
+const loginUser = async (res,payload) => {
+  const { email, password } = payload;
+  const user = await UserModel.findOne({ email });
+  console.log(await user.matchPassword(password))
+
+  if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id);
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(401);
+    throw new Error('Invalid email or password');
+  }
+};
+const getUserProfile = async () => {
+  const result = await UserModel.find()
+  console.log(result)
+};
+
 export const UserServices = {
   createStudentIntoDB,
+  loginUser,
+  getUserProfile
 };

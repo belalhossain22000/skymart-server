@@ -14,11 +14,18 @@ const userSchema=new Schema({
       password: {
         type: String,
         required: true,
-        select: 0,
+       
       }
 })
 
+// Match user entered password to hashed password in database
+userSchema.methods.matchPassword = async function (enteredPassword) {
 
+  
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+// hassing password before create user
 userSchema.pre('save', async function (next) {
 
   const user = this; 

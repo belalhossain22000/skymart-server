@@ -15,6 +15,20 @@ const createUserValidationSchema = z.object({
     .max(20, { message: "Password cannot be more than 20 characters" }),
 });
 
+
+// login user validation schema
+const loginUserValidationSchema = z.object({
+
+  email: z.string().email(),
+
+  password: z
+    .string({
+      invalid_type_error: "Password must be a string",
+    })
+    .max(20, { message: "Password cannot be more than 20 characters" }),
+});
+
 export const UserValidation = {
   createUserValidationSchema,
+  loginUserValidationSchema
 };

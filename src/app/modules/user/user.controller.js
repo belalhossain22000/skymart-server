@@ -14,6 +14,31 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
+// log in user
+const logInUser = catchAsync(async (req, res) => {
+  const result = await UserServices.loginUser(res,req?.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User loged in successfully",
+    data: result,
+  });
+});
+// log in user
+const getUserProfile = catchAsync(async (req, res) => {
+  const result = await UserServices.getUserProfile();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User retrive in successfully",
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createUser,
+  logInUser,
+  getUserProfile
 };
