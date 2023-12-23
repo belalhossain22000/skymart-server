@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: String, 
+    type: String,
     required: true,
   },
 
@@ -17,12 +17,18 @@ const productSchema = new mongoose.Schema({
   },
   size: {
     type: String,
-    enum: ['S', 'M', 'L', 'XL', 'XXL'], 
+    enum: ["S", "M", "L", "XL", "XXL"],
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  brand: {
+    type: String,
     required: true,
   },
 });
 
-// product model 
+// product model
 export const ProductModel = mongoose.model("Product", productSchema);
-
-

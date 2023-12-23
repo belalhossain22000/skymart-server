@@ -6,6 +6,8 @@ const createProductSchema = z.object({
   image: z.string().url(),
   color: z.string(),
   size: z.enum(['S', 'M', 'L', 'XL', 'XXL']),
+  price:z.number(),
+  brand:z.string()
 });
 
 export const ProductValidation = {
