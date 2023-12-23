@@ -10,9 +10,21 @@ import { ProductController } from "./product.controller.js";
 const router = express.Router();
 
 router.post(
-  "/create-Product",
+  "/",
   validateRequest(ProductValidation.createProductSchema),
   ProductController.createProduct
+);
+
+// get  product
+router.get(
+  "/",
+  ProductController.getProducts
+);
+
+// get single product
+router.get(
+  "/:id",
+  ProductController.getSingleProduct
 );
 
 

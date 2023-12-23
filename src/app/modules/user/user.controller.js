@@ -18,7 +18,6 @@ const createUser = catchAsync(async (req, res) => {
 // log in user
 const logInUser = catchAsync(async (req, res) => {
   const result = await UserServices.loginUser(res,req?.body);
-  console.log(result)
   generateToken(res, result?._id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
