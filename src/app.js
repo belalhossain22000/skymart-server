@@ -20,7 +20,8 @@ app.get("/", (req, res) => {
   res.send("server is running");
 });
 
+
 app.use(notFound);
-app.use(globalErrorHandler);
+// app.use(globalErrorHandler);
 
 export default app;

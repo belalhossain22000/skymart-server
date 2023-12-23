@@ -31,17 +31,20 @@ const createStudentIntoDB = async (payload) => {
 // @access  Public
 const loginUser = async (res,payload) => {
   const { email, password } = payload;
-  const user = await UserModel.findOne({ email });
-  console.log(await user.matchPassword(password))
+  const result = await UserModel.findOne({ email });
+ 
 
-  if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
+  if (result && (await result?.matchPassword(password))) {
+    // generateToken(res, user?._id);
 
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    });
+    if (result) {
+      const user = {
+        _id: result?._id,
+        name: result?.name,
+        email: result.email,
+      };
+      return user;
+    }
   } else {
     res.status(401);
     throw new Error('Invalid email or password');

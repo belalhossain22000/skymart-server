@@ -16,6 +16,11 @@ router.post(
   validateRequest(UserValidation.loginUserValidationSchema),
   UserControllers.logInUser
 );
-router.get("/",protect, UserControllers.getUserProfile);
+
+// logOut user
+router.post("/logout-user", UserControllers.logoutUser);
+
+
+router.get("/", protect, UserControllers.getUserProfile);
 
 export const UserRoutes = router;

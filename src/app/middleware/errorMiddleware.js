@@ -10,6 +10,8 @@ const notFound = (req, res, next) => {
   next(error);
 };
 
+
+// globall error handler
 const globalErrorHandler = (err, req, res, next) => {
   //setting default values
   let statusCode = 500;
@@ -21,21 +23,25 @@ const globalErrorHandler = (err, req, res, next) => {
     },
   ];
 
+// checking zod validation error
   if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
+    // chacking mongooss validation error
   } else if (err?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
+    // checking cast error mongoose
   } else if (err?.name === 'CastError') {
     const simplifiedError = handleCastError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
+    // checking duplicate key error
   } else if (err?.code === 11000) {
     const simplifiedError = handleDuplicateError(err);
     statusCode = simplifiedError?.statusCode;
