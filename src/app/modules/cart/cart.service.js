@@ -9,21 +9,36 @@ const creteCartIntoDB = async (payload) => {
     // Check if the user exists
     const isUserExist = await UserModel.findById(userId);
     if (!isUserExist) {
-      throw new Error({ error: `User not found with the ID ${userId}` });
+      throw new Error(`User not found with the ID ${userId}`);
     }
 
     // Find the user's cart
     let cart = await CartModel.findOne({ userId });
-    // console.log(cart)
 
     // If the user doesn't have a cart, create a new cart and add the product
     if (!cart) {
       cart = new CartModel({ userId, cart: userCart });
+      await cart.save();
+      return cart;
+    }
+
+    // If the user has a cart, check if the product already exists in the cart
+    for (const item of userCart) {
+      const existingProduct = cart.cart.find(
+        (cartProduct) => cartProduct.productId === item.productId
+      );
+
+      if (existingProduct) {
+        // If the product already exists, increase its quantity by one
+        existingProduct.quantity += 1;
+      } else {
+        // If the product doesn't exist, add it to the cart
+        cart.cart.push({ productId: item.productId, quantity: item.quantity });
+      }
     }
 
     // Save the updated cart
     await cart.save();
-
     return cart;
   } catch (error) {
     console.log(error);
@@ -48,7 +63,7 @@ const getSingleCartFromDB = async (userId) => {
   .populate({
     path: 'cart.productId',
     model: 'Product',
-    select: 'title price'
+    select: 'title price image'
   });
 
   if (!isUserCartExist) {

@@ -6,7 +6,7 @@ import generateToken from "../../utils/generateToken.js";
 
 const createUser = catchAsync(async (req, res) => {
   const result = await UserServices.createStudentIntoDB(req?.body);
-
+  generateToken(res, result?._id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
